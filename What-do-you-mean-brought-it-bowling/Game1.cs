@@ -14,13 +14,17 @@ namespace What_do_you_mean_brought_it_bowling
     /// </summary>
     public class Game1 : Game
     {
+        //Set up Screen
         int screenWidth = 1024;
         int screenHeight = 768;
+        Rectangle screenBounds;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Set up dude variables
+        dude thedude;
         Texture2D dudeImage;
-        Vector2 dudeStartPosition;
+        //Vector2 dudeStartPosition;
 
      
 
@@ -34,9 +38,11 @@ namespace What_do_you_mean_brought_it_bowling
 
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
+            screenBounds = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
-            dudeStartPosition.X = screenWidth / 2;
-            dudeStartPosition.Y = screenHeight / 2;
+            this.Window.Title = "What do you mean \"brought it bowling\"?";
+            //dudeStartPosition.X = screenWidth / 2;
+            //dudeStartPosition.Y = screenHeight / 2;
 
         }
 
@@ -63,7 +69,7 @@ namespace What_do_you_mean_brought_it_bowling
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             dudeImage = Content.Load<Texture2D>("dude.png");
-
+            thedude = new dude(dudeImage, screenBounds);
             // TODO: use this.Content to load your game content here
         }
 
@@ -85,7 +91,7 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            thedude.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -99,7 +105,7 @@ namespace What_do_you_mean_brought_it_bowling
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.Draw(dudeImage, dudeStartPosition, Color.White);
+            thedude.Draw(spriteBatch);
             spriteBatch.End();
 
             // TODO: Add your drawing code here
