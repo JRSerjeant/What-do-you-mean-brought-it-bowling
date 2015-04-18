@@ -27,11 +27,16 @@ namespace What_do_you_mean_brought_it_bowling
 
         //Set up ball variables
         public List<ball> balls = new List<ball>();
-        
         Vector2 startL;
         public Texture2D ballImage;
         KeyboardState oldState;
-        //KeyboardState keyboardState;
+        
+        //Background
+        Texture2D backgroungImage;
+
+        //font
+        SpriteFont font;
+
      
 
 
@@ -76,10 +81,9 @@ namespace What_do_you_mean_brought_it_bowling
 
             ballImage = Content.Load<Texture2D>("ball.png");
             dudeImage = Content.Load<Texture2D>("dude.png");
-            thedude = new dude(dudeImage, ballImage, screenBounds);
-            
-            //balls.Add(new ball(ballImage, screenBounds, startL));
-            
+            backgroungImage = Content.Load<Texture2D>("background.png");
+            font = Content.Load<SpriteFont>("lebowski.ttf");
+            thedude = new dude(dudeImage, ballImage, screenBounds);           
         }
 
         /// <summary>
@@ -100,23 +104,27 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             thedude.Update();
+
+            foreach (ball ball in balls)
+            {
+                ball.Update();
+            }
+            //remove balls that are off screen
+            balls.RemoveAll(item => item.isOffScreen() == true);
             
             KeyboardState newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.Space))
             {
                 if (!oldState.IsKeyDown(Keys.Space))
                 {
-                     addBall(startL);
+                     addBall(thedude.position);
                     startL.X += ballImage.Width;
                 }
             }
             oldState = newState;
-           // else if (keyboardState.IsKeyUp(Keys.Space))
 
-
-               
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -129,20 +137,31 @@ namespace What_do_you_mean_brought_it_bowling
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            spriteBatch.Draw(backgroungImage,new Vector2(0.0f, 0.0f) ,Color.White);
             thedude.Draw(spriteBatch);
             foreach (ball ball in balls)
             {
                 ball.Draw(spriteBatch);
             }
+            drawText();
             spriteBatch.End();
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
+
         public void addBall(Vector2 dudePosition)
         {
+            dudePosition.Y -= 20;
+            dudePosition.X += dudeImage.Width;
             balls.Add(new ball(ballImage, screenBounds, dudePosition));
         }
+
+        public void drawText()
+        {
+            spriteBatch.DrawString(font, "Balls: " + balls.Count.ToString(), new Vector2(10, 10), Color.White);
+        }
+
     }
 }

@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace What_do_you_mean_brought_it_bowling
 {
-    class dude
+    public class dude
     {
-        public Game1 game;
+        Game1 game;
 
-        Vector2 position;
+        public Vector2 position;
         Vector2 motion;
         float dudeSpeed = 8.0f;
 
@@ -47,12 +47,7 @@ namespace What_do_you_mean_brought_it_bowling
             {
                 motion.X = 1;
             }
-            if (keyboardState.IsKeyDown(Keys.Space) || keyboardState.IsKeyDown(Keys.Enter))
-            {
-                //game.addBall(position);
-                //game.balls.Add(new ball(ballTexture, screenBounds, position));
 
-            }
 
             motion.X *= dudeSpeed;
             position += motion;
