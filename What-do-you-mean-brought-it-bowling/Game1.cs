@@ -24,7 +24,10 @@ namespace What_do_you_mean_brought_it_bowling
         //Set up dude variables
         dude thedude;
         Texture2D dudeImage;
-        //Vector2 dudeStartPosition;
+
+        //Set up ball variables
+        List<ball> balls = new List<ball>();
+        Texture2D ballImage;
 
      
 
@@ -70,7 +73,9 @@ namespace What_do_you_mean_brought_it_bowling
 
             dudeImage = Content.Load<Texture2D>("dude.png");
             thedude = new dude(dudeImage, screenBounds);
-            // TODO: use this.Content to load your game content here
+
+            ballImage = Content.Load<Texture2D>("ball.png");
+            balls.Add(new ball(ballImage, screenBounds));
         }
 
         /// <summary>
@@ -92,6 +97,7 @@ namespace What_do_you_mean_brought_it_bowling
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             thedude.Update();
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -106,6 +112,10 @@ namespace What_do_you_mean_brought_it_bowling
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             thedude.Draw(spriteBatch);
+            foreach (ball ball in balls)
+            {
+                ball.Draw(spriteBatch);
+            }
             spriteBatch.End();
 
             // TODO: Add your drawing code here
