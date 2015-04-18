@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,11 +14,17 @@ namespace What_do_you_mean_brought_it_bowling
     /// </summary>
     public class Game1 : Game
     {
+        int screenWidth = 1024;
+        int screenHeight = 768;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        int screenWidth = 1024;
-        int screenHeight = 768;
+        Texture2D dudeImage;
+        Vector2 dudeStartPosition;
+
+     
+
+
 
         public Game1()
             : base()
@@ -23,6 +34,9 @@ namespace What_do_you_mean_brought_it_bowling
 
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
+
+            dudeStartPosition.X = screenWidth / 2;
+            dudeStartPosition.Y = screenHeight / 2;
 
         }
 
@@ -47,6 +61,8 @@ namespace What_do_you_mean_brought_it_bowling
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            dudeImage = Content.Load<Texture2D>("dude.png");
 
             // TODO: use this.Content to load your game content here
         }
@@ -82,6 +98,9 @@ namespace What_do_you_mean_brought_it_bowling
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(dudeImage, dudeStartPosition, Color.White);
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 
