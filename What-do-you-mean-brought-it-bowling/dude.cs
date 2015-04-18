@@ -11,6 +11,8 @@ namespace What_do_you_mean_brought_it_bowling
 {
     class dude
     {
+        public Game1 game;
+
         Vector2 position;
         Vector2 motion;
         float dudeSpeed = 8.0f;
@@ -18,14 +20,18 @@ namespace What_do_you_mean_brought_it_bowling
         KeyboardState keyboardState;
 
         Texture2D texture;
+        Texture2D ballTexture;
         Rectangle screenBounds;
 
-        public dude(Texture2D texture, Rectangle screenBounds)
+        public dude(Texture2D texture, Texture2D ballTexture, Rectangle screenBounds)
         {
             this.texture = texture;
             this.screenBounds = screenBounds;
+            this.ballTexture = ballTexture;
             SetInStartPosition();
+            game = new Game1();
         }
+
 
         public void Update()
         {
@@ -40,6 +46,12 @@ namespace What_do_you_mean_brought_it_bowling
             if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.E))
             {
                 motion.X = 1;
+            }
+            if (keyboardState.IsKeyDown(Keys.Space) || keyboardState.IsKeyDown(Keys.Enter))
+            {
+                //game.addBall(position);
+                //game.balls.Add(new ball(ballTexture, screenBounds, position));
+
             }
 
             motion.X *= dudeSpeed;

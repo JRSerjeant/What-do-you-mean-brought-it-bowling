@@ -26,9 +26,12 @@ namespace What_do_you_mean_brought_it_bowling
         Texture2D dudeImage;
 
         //Set up ball variables
-        List<ball> balls = new List<ball>();
-        Texture2D ballImage;
-
+        public List<ball> balls = new List<ball>();
+        
+        Vector2 startL;
+        public Texture2D ballImage;
+        KeyboardState oldState;
+        //KeyboardState keyboardState;
      
 
 
@@ -42,10 +45,10 @@ namespace What_do_you_mean_brought_it_bowling
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
             screenBounds = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-
+            
             this.Window.Title = "What do you mean \"brought it bowling\"?";
-            //dudeStartPosition.X = screenWidth / 2;
-            //dudeStartPosition.Y = screenHeight / 2;
+            startL.X = 100;
+            startL.Y = 100;
 
         }
 
@@ -58,7 +61,7 @@ namespace What_do_you_mean_brought_it_bowling
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            oldState = Keyboard.GetState();
             base.Initialize();
         }
 
@@ -71,11 +74,12 @@ namespace What_do_you_mean_brought_it_bowling
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            dudeImage = Content.Load<Texture2D>("dude.png");
-            thedude = new dude(dudeImage, screenBounds);
-
             ballImage = Content.Load<Texture2D>("ball.png");
-            balls.Add(new ball(ballImage, screenBounds));
+            dudeImage = Content.Load<Texture2D>("dude.png");
+            thedude = new dude(dudeImage, ballImage, screenBounds);
+            
+            //balls.Add(new ball(ballImage, screenBounds, startL));
+            
         }
 
         /// <summary>
@@ -97,7 +101,21 @@ namespace What_do_you_mean_brought_it_bowling
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             thedude.Update();
+            
+            KeyboardState newState = Keyboard.GetState();
+            if (newState.IsKeyDown(Keys.Space))
+            {
+                if (!oldState.IsKeyDown(Keys.Space))
+                {
+                     addBall(startL);
+                    startL.X += ballImage.Width;
+                }
+            }
+            oldState = newState;
+           // else if (keyboardState.IsKeyUp(Keys.Space))
 
+
+               
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -121,6 +139,10 @@ namespace What_do_you_mean_brought_it_bowling
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+        public void addBall(Vector2 dudePosition)
+        {
+            balls.Add(new ball(ballImage, screenBounds, dudePosition));
         }
     }
 }

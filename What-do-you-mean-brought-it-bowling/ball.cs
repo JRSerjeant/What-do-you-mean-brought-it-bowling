@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace What_do_you_mean_brought_it_bowling
 {
-    class ball
+    public class ball
     {
         Vector2 position;
         float ballSpeed = 8.0f;
@@ -18,11 +18,12 @@ namespace What_do_you_mean_brought_it_bowling
         Rectangle screenBounds;
 
 
-        public ball(Texture2D texture, Rectangle screenBounds)
+        public ball(Texture2D texture, Rectangle screenBounds, Vector2 position)
         {
             this.texture = texture;
             this.screenBounds = screenBounds;
-            SetInStartPosition();
+            this.position = position;
+            //SetInStartPosition();
         }
 
         public void Update()
@@ -37,8 +38,7 @@ namespace What_do_you_mean_brought_it_bowling
 
         public void SetInStartPosition()
         {
-            position.X = (screenBounds.Width - texture.Width) / 2;
-            position.Y = (screenBounds.Height- texture.Height) - 30;
+            
         }
     }
 }
