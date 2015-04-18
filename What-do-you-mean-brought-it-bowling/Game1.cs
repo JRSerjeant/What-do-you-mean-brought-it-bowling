@@ -38,8 +38,8 @@ namespace What_do_you_mean_brought_it_bowling
         //Background
         Texture2D backgroungImage;
 
-        //font
-        SpriteFont font;
+        //numbers
+        Texture2D zero, one, two, three, four, five, six, seven, eight, nine;
 
         public int score;
 
@@ -85,6 +85,20 @@ namespace What_do_you_mean_brought_it_bowling
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
+            //load numbers
+
+            zero = Content.Load<Texture2D>("0.png");
+            one = Content.Load<Texture2D>("1.png");
+            two = Content.Load<Texture2D>("2.png");
+            three = Content.Load<Texture2D>("3.png");
+            four = Content.Load<Texture2D>("4.png");
+            five = Content.Load<Texture2D>("5.png");
+            six = Content.Load<Texture2D>("6.png");
+            seven = Content.Load<Texture2D>("7.png");
+            eight = Content.Load<Texture2D>("8.png");
+            nine = Content.Load<Texture2D>("9.png");
 
             ballImage = Content.Load<Texture2D>("ball.png");
             dudeImage = Content.Load<Texture2D>("dude.png");
