@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "What-do-you-mean-brought-it-bowling", "What-do-you-mean-brought-it-bowling.csproj", "{3B9C313D-6979-4FA8-95D8-40FACD1012B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B9C313D-6979-4FA8-95D8-40FACD1012B4}.Debug|x86.ActiveCfg = Debug|x86
+		{3B9C313D-6979-4FA8-95D8-40FACD1012B4}.Debug|x86.Build.0 = Debug|x86
+		{3B9C313D-6979-4FA8-95D8-40FACD1012B4}.Release|x86.ActiveCfg = Release|x86
+		{3B9C313D-6979-4FA8-95D8-40FACD1012B4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
