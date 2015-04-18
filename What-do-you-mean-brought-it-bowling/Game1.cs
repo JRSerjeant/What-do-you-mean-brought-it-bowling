@@ -12,11 +12,18 @@ namespace What_do_you_mean_brought_it_bowling
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        int screenWidth = 1024;
+        int screenHeight = 768;
+
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
+
         }
 
         /// <summary>
