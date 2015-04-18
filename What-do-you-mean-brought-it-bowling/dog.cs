@@ -9,27 +9,39 @@ using Microsoft.Xna.Framework.Input;
 
 namespace What_do_you_mean_brought_it_bowling
 {
-    public class ball
+    public class dog
     {
         Vector2 position;
-        Rectangle location;
-        float ballSpeed = 3f;
+        Rectangle bounds;
+        public bool isAlive;
+
+        public Rectangle publicBounds
+        {
+            get
+            {
+                bounds.X = (int)position.X;
+                bounds.Y = (int)position.Y;
+                return bounds;
+            }
+        }
+
+        float dogSpeed = 1f;
 
         Texture2D texture;
         Rectangle screenBounds;
 
-
-        public ball(Texture2D texture, Rectangle screenBounds, Vector2 position)
+        public dog(Texture2D texture, Rectangle screenBounds, Vector2 position)
         {
+            bounds = new Rectangle(0, 0, texture.Width, texture.Height);
             this.texture = texture;
             this.screenBounds = screenBounds;
             this.position = position;
+            this.isAlive = true;
         }
 
         public void Update()
         {
-            position.Y -= ballSpeed;
-            location = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            position.Y += dogSpeed;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -39,26 +51,15 @@ namespace What_do_you_mean_brought_it_bowling
 
         public bool isOffScreen()
         {
-            if (position.Y < 0)
+            if (position.Y > screenBounds.Height)
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
-        }
 
-        public void checkCollision(List<dog> dogs)
-        {
-            foreach (dog dog in dogs)
-            {
-                if(dog.publicBounds.Intersects(location))
-                {
-                    dog.isAlive = false;
-                }
-            }
         }
-        
     }
 }

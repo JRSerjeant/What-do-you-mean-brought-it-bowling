@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,10 @@ namespace What_do_you_mean_brought_it_bowling
         Vector2 startL;
         public Texture2D ballImage;
         KeyboardState oldState;
+
+        //Set up dog variables 
+        public List<dog> dogs = new List<dog>();
+        Texture2D dogImage;
         
         //Background
         Texture2D backgroungImage;
@@ -81,9 +86,16 @@ namespace What_do_you_mean_brought_it_bowling
 
             ballImage = Content.Load<Texture2D>("ball.png");
             dudeImage = Content.Load<Texture2D>("dude.png");
+            dogImage = Content.Load<Texture2D>("dog.png");
             backgroungImage = Content.Load<Texture2D>("background.png");
-            font = Content.Load<SpriteFont>("lebowski.ttf");
-            thedude = new dude(dudeImage, ballImage, screenBounds);           
+            //font = Content.Load<SpriteFont>("lebowski");
+            thedude = new dude(dudeImage, ballImage, screenBounds);
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -60)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -50)));
+
         }
 
         /// <summary>
@@ -110,9 +122,19 @@ namespace What_do_you_mean_brought_it_bowling
             foreach (ball ball in balls)
             {
                 ball.Update();
+                ball.checkCollision(dogs);
             }
-            //remove balls that are off screen
+
+            foreach (dog dog in dogs)
+            {
+                dog.Update();
+                System.Diagnostics.Debug.WriteLine("Is dog alive: " + dog.isAlive.ToString());
+            }
+
+            
+            //remove balls and dogs that are off screen
             balls.RemoveAll(item => item.isOffScreen() == true);
+            dogs.RemoveAll(item => item.isOffScreen() == true || item.isAlive == false);
             
             KeyboardState newState = Keyboard.GetState();
             if (newState.IsKeyDown(Keys.Space))
@@ -137,15 +159,27 @@ namespace What_do_you_mean_brought_it_bowling
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            //draw backfround Image
             spriteBatch.Draw(backgroungImage,new Vector2(0.0f, 0.0f) ,Color.White);
+            
+            //draw the dude.
             thedude.Draw(spriteBatch);
+
+            //Draw the balls
             foreach (ball ball in balls)
             {
                 ball.Draw(spriteBatch);
             }
-            drawText();
-            spriteBatch.End();
 
+            //Draw the dogs
+            foreach (dog dog in dogs)
+            {
+                dog.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
+            System.Diagnostics.Debug.WriteLine("Balls: " + balls.Count.ToString());
+            System.Diagnostics.Debug.WriteLine("Dogs: " + dogs.Count.ToString());
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
@@ -158,10 +192,10 @@ namespace What_do_you_mean_brought_it_bowling
             balls.Add(new ball(ballImage, screenBounds, dudePosition));
         }
 
-        public void drawText()
-        {
-            spriteBatch.DrawString(font, "Balls: " + balls.Count.ToString(), new Vector2(10, 10), Color.White);
-        }
+        //public void drawText()
+        //{
+        //    spriteBatch.DrawString(font, "Balls: " + balls.Count.ToString(), new Vector2(10, 10), Color.White);
+        //}
 
     }
 }
