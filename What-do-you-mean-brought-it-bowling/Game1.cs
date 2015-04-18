@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,6 +41,8 @@ namespace What_do_you_mean_brought_it_bowling
         //font
         SpriteFont font;
 
+        public int score;
+
      
 
 
@@ -59,7 +60,7 @@ namespace What_do_you_mean_brought_it_bowling
             this.Window.Title = "What do you mean \"brought it bowling\"?";
             startL.X = 100;
             startL.Y = 100;
-
+            
         }
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace What_do_you_mean_brought_it_bowling
         {
             // TODO: Add your initialization logic here
             oldState = Keyboard.GetState();
+            score = 0;
             base.Initialize();
         }
 
@@ -92,9 +94,9 @@ namespace What_do_you_mean_brought_it_bowling
             thedude = new dude(dudeImage, ballImage, screenBounds);
             dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0)));
             dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -60)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -160)));
             dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -50)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -250)));
 
         }
 
@@ -116,7 +118,7 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            System.Diagnostics.Debug.WriteLine(score);
             thedude.Update();
 
             foreach (ball ball in balls)
@@ -128,7 +130,10 @@ namespace What_do_you_mean_brought_it_bowling
             foreach (dog dog in dogs)
             {
                 dog.Update();
-                System.Diagnostics.Debug.WriteLine("Is dog alive: " + dog.isAlive.ToString());
+                if (dog.isAlive == false)
+                {
+                    score += 1;
+                }
             }
 
             
@@ -147,6 +152,13 @@ namespace What_do_you_mean_brought_it_bowling
             }
             oldState = newState;
 
+            if (dogs.Count < 6)
+            {
+                Random random = new Random();
+                int x = random.Next((0 + dudeImage.Width), (screenWidth - dogImage.Width));
+                int y = random.Next(-999, -100);
+                dogs.Add(new dog(dogImage, screenBounds, new Vector2(x , y)));
+            }
 
             base.Update(gameTime);
         }
@@ -178,8 +190,7 @@ namespace What_do_you_mean_brought_it_bowling
             }
 
             spriteBatch.End();
-            System.Diagnostics.Debug.WriteLine("Balls: " + balls.Count.ToString());
-            System.Diagnostics.Debug.WriteLine("Dogs: " + dogs.Count.ToString());
+
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
@@ -190,6 +201,11 @@ namespace What_do_you_mean_brought_it_bowling
             dudePosition.Y -= 20;
             dudePosition.X += dudeImage.Width;
             balls.Add(new ball(ballImage, screenBounds, dudePosition));
+        }
+
+        public void addScore()
+        {
+            score += 1;
         }
 
         //public void drawText()

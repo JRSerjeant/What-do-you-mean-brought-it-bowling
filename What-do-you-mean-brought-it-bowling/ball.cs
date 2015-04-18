@@ -18,7 +18,6 @@ namespace What_do_you_mean_brought_it_bowling
         Texture2D texture;
         Rectangle screenBounds;
 
-
         public ball(Texture2D texture, Rectangle screenBounds, Vector2 position)
         {
             this.texture = texture;
