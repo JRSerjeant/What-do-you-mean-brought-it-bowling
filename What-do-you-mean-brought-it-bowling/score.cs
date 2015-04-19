@@ -34,8 +34,8 @@ namespace What_do_you_mean_brought_it_bowling
 
             for (int i = 0; i < scoreArray.Length; i++)
             {
-                position.X = i * textures[0].Width;
-                position.Y = screenBounds.Height - textures[0].Height;
+                position.X = (i * textures[0].Width) + 5;
+                position.Y = screenBounds.Height - textures[0].Height - 5;
 
                 switch (scoreArray[i])
                 {
@@ -69,14 +69,8 @@ namespace What_do_you_mean_brought_it_bowling
                     case '9':
                         spriteBatch.Draw(textures[9], position, Color.White);
                         break;
-
                 }
             }
-
-
         }
-
-        
-
     }
 }

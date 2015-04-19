@@ -62,7 +62,7 @@ namespace What_do_you_mean_brought_it_bowling
         public void SetInStartPosition()
         {
             position.X = (screenBounds.Width - texture.Width) / 2;
-            position.Y = (screenBounds.Height - texture.Height) - 60;
+            position.Y = (screenBounds.Height - texture.Height) - 100;
         }
 
         private void keepDudeOnScreen()

@@ -15,9 +15,11 @@ namespace What_do_you_mean_brought_it_bowling
         Rectangle location;
         float ballSpeed = 3f;
         
+        
+        
         Texture2D texture;
         Rectangle screenBounds;
-
+        
         public ball(Texture2D texture, Rectangle screenBounds, Vector2 position)
         {
             this.texture = texture;
@@ -33,6 +35,7 @@ namespace What_do_you_mean_brought_it_bowling
 
         public void Draw(SpriteBatch spriteBatch)
         {
+
             spriteBatch.Draw(texture, position, Color.White);
 
         }
@@ -41,6 +44,7 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (position.Y < 0)
             {
+                
                 return true;
             }
             else 

@@ -31,6 +31,8 @@ namespace What_do_you_mean_brought_it_bowling
         Vector2 startL;
         public Texture2D ballImage;
         KeyboardState oldState;
+        holdingballs holdingBalls;
+        
 
         //Set up dog variables 
         public List<dog> dogs = new List<dog>();
@@ -48,9 +50,12 @@ namespace What_do_you_mean_brought_it_bowling
         life life;
         Texture2D lifeImage;
 
-        //gameover
+        //messages
         Texture2D gameOverImage;
- 
+        Texture2D welcomeImage;
+        Texture2D spake1Image;
+
+        bool newgame = true;
 
         public Game1()
             : base()
@@ -111,12 +116,15 @@ namespace What_do_you_mean_brought_it_bowling
             dogImage = Content.Load<Texture2D>("dog.png");
             backgroungImage = Content.Load<Texture2D>("background.png");
             lifeImage = Content.Load<Texture2D>("life.png");
+            welcomeImage = Content.Load <Texture2D>("welcome.png");
+            spake1Image = Content.Load<Texture2D>("speak1.png");
             //Load first set of dogs. 
             StartGame();
             //create class instances
             life = new life(lifeImage, screenBounds);
             scoreBoard = new score(score, screenBounds, scoresTextures);
             thedude = new dude(dudeImage, ballImage, screenBounds);
+            holdingBalls = new holdingballs(ballImage, screenBounds);
 
 
         }
@@ -145,6 +153,10 @@ namespace What_do_you_mean_brought_it_bowling
             {
                 ball.Update();
                 ball.checkCollision(dogs);
+                if (ball.isOffScreen() == true)
+                {
+                    holdingBalls.increaseBallsToDraw();
+                }
             }
 
             foreach (dog dog in dogs)
@@ -154,7 +166,7 @@ namespace What_do_you_mean_brought_it_bowling
                 {
                     score += 1;
                 }
-                if (dog.isDogOffScreen == true)
+                if (dog.isDogOffScreen == true && newgame == false)
                 {
                     life.removeLife();
                 }
@@ -165,12 +177,18 @@ namespace What_do_you_mean_brought_it_bowling
             dogs.RemoveAll(item => item.isOffScreen() == true || item.isAlive == false);
             
             KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Keys.Space) && life.gameover == false)
+            if (newState.IsKeyDown(Keys.X) && newgame == true)
+            {
+                newgame = false;
+                RestartGame();
+            }
+            if (newState.IsKeyDown(Keys.Space) && newgame == false)
             {
                 if (!oldState.IsKeyDown(Keys.Space))
                 {
                     if (balls.Count <= 10)
                     {
+                        holdingBalls.reduceBallsToDraw();
                         addBall(thedude.position);
                         //startL.X += ballImage.Width;
                     }
@@ -204,7 +222,7 @@ namespace What_do_you_mean_brought_it_bowling
             spriteBatch.Begin();
             //draw backfround Image
             spriteBatch.Draw(backgroungImage,new Vector2(0.0f, 0.0f) ,Color.White);
-            
+           
             //draw the dude.
             thedude.Draw(spriteBatch);
 
@@ -225,14 +243,22 @@ namespace What_do_you_mean_brought_it_bowling
 
             //Draw the life icons.
             life.Draw(spriteBatch);
+            holdingBalls.Draw(spriteBatch);
+
+            spriteBatch.Draw(spake1Image, new Vector2(180, 643), Color.White);
+
+            //message windows !!must go last!!
             if (life.gameover == true)
             {
                 spriteBatch.Draw(gameOverImage, new Vector2((screenWidth / 2) -(gameOverImage.Width / 2), (screenHeight /2) - (gameOverImage.Height /2)), Color.White);
             }
+
+            if (newgame == true)
+            {
+                spriteBatch.Draw(welcomeImage, new Vector2((screenWidth / 2) - (welcomeImage.Width / 2), (screenHeight / 2) - (welcomeImage.Height / 2)), Color.White);
+            }
+
             spriteBatch.End();
-
-            // TODO: Add your drawing code here
-
 
             base.Draw(gameTime);
         }
@@ -240,7 +266,7 @@ namespace What_do_you_mean_brought_it_bowling
         public void addBall(Vector2 dudePosition)
         {
             dudePosition.Y -= 20;
-            dudePosition.X += dudeImage.Width;
+            dudePosition.X += dudeImage.Width - 20;
             balls.Add(new ball(ballImage, screenBounds, dudePosition));
         }
 
@@ -266,10 +292,6 @@ namespace What_do_you_mean_brought_it_bowling
             balls.Clear();
             score = 0;
             StartGame();
-
         }
-
- 
-
     }
 }
