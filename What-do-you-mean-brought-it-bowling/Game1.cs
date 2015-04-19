@@ -245,7 +245,7 @@ namespace What_do_you_mean_brought_it_bowling
             life.Draw(spriteBatch);
             holdingBalls.Draw(spriteBatch);
 
-            spriteBatch.Draw(spake1Image, new Vector2(180, 643), Color.White);
+            //spriteBatch.Draw(spake1Image, new Vector2(180, 643), Color.White);
 
             //message windows !!must go last!!
             if (life.gameover == true)
