@@ -14,7 +14,7 @@ namespace What_do_you_mean_brought_it_bowling
         Vector2 position;
         Rectangle location;
         float ballSpeed = 3f;
-
+        
         Texture2D texture;
         Rectangle screenBounds;
 
@@ -34,6 +34,7 @@ namespace What_do_you_mean_brought_it_bowling
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, Color.White);
+
         }
 
         public bool isOffScreen()

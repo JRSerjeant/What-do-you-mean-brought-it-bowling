@@ -14,6 +14,7 @@ namespace What_do_you_mean_brought_it_bowling
         Vector2 position;
         Rectangle bounds;
         public bool isAlive;
+        public bool isDogOffScreen;
 
         public Rectangle publicBounds
         {
@@ -42,6 +43,7 @@ namespace What_do_you_mean_brought_it_bowling
         public void Update()
         {
             position.Y += dogSpeed;
+            isOffScreen();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -53,10 +55,12 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (position.Y > screenBounds.Height)
             {
+                isDogOffScreen = true;
                 return true;
             }
             else
             {
+                isDogOffScreen = false;
                 return false;
             }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,13 +40,17 @@ namespace What_do_you_mean_brought_it_bowling
         Texture2D backgroungImage;
 
         //numbers
-        Texture2D zero, one, two, three, four, five, six, seven, eight, nine;
+        Texture2D[] scoresTextures; 
+        score scoreBoard;
+        int score;
 
-        public int score;
+        //life
+        life life;
+        Texture2D lifeImage;
 
-     
-
-
+        //gameover
+        Texture2D gameOverImage;
+ 
 
         public Game1()
             : base()
@@ -88,29 +93,31 @@ namespace What_do_you_mean_brought_it_bowling
 
 
             //load numbers
-
-            zero = Content.Load<Texture2D>("0.png");
-            one = Content.Load<Texture2D>("1.png");
-            two = Content.Load<Texture2D>("2.png");
-            three = Content.Load<Texture2D>("3.png");
-            four = Content.Load<Texture2D>("4.png");
-            five = Content.Load<Texture2D>("5.png");
-            six = Content.Load<Texture2D>("6.png");
-            seven = Content.Load<Texture2D>("7.png");
-            eight = Content.Load<Texture2D>("8.png");
-            nine = Content.Load<Texture2D>("9.png");
-
+            scoresTextures = new Texture2D[] {Content.Load<Texture2D>("0.png"), 
+                Content.Load<Texture2D>("1.png"),
+                Content.Load<Texture2D>("2.png"),
+                Content.Load<Texture2D>("3.png"),
+                Content.Load<Texture2D>("4.png"),
+                Content.Load<Texture2D>("5.png"),
+                Content.Load<Texture2D>("6.png"),
+                Content.Load<Texture2D>("7.png"),
+                Content.Load<Texture2D>("8.png"),
+                Content.Load<Texture2D>("9.png")};
+            
+            // load ball, dude, dog, life, gameover and background textures
+            gameOverImage = Content.Load<Texture2D>("gameover.png");
             ballImage = Content.Load<Texture2D>("ball.png");
             dudeImage = Content.Load<Texture2D>("dude.png");
             dogImage = Content.Load<Texture2D>("dog.png");
             backgroungImage = Content.Load<Texture2D>("background.png");
-            //font = Content.Load<SpriteFont>("lebowski");
+            lifeImage = Content.Load<Texture2D>("life.png");
+            //Load first set of dogs. 
+            StartGame();
+            //create class instances
+            life = new life(lifeImage, screenBounds);
+            scoreBoard = new score(score, screenBounds, scoresTextures);
             thedude = new dude(dudeImage, ballImage, screenBounds);
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -160)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -250)));
+
 
         }
 
@@ -132,7 +139,6 @@ namespace What_do_you_mean_brought_it_bowling
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            System.Diagnostics.Debug.WriteLine(score);
             thedude.Update();
 
             foreach (ball ball in balls)
@@ -148,32 +154,43 @@ namespace What_do_you_mean_brought_it_bowling
                 {
                     score += 1;
                 }
+                if (dog.isDogOffScreen == true)
+                {
+                    life.removeLife();
+                }
             }
-
             
             //remove balls and dogs that are off screen
             balls.RemoveAll(item => item.isOffScreen() == true);
             dogs.RemoveAll(item => item.isOffScreen() == true || item.isAlive == false);
             
             KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Keys.Space))
+            if (newState.IsKeyDown(Keys.Space) && life.gameover == false)
             {
                 if (!oldState.IsKeyDown(Keys.Space))
                 {
-                     addBall(thedude.position);
-                    startL.X += ballImage.Width;
+                    if (balls.Count <= 10)
+                    {
+                        addBall(thedude.position);
+                        //startL.X += ballImage.Width;
+                    }
                 }
             }
             oldState = newState;
 
-            if (dogs.Count < 6)
+            if (newState.IsKeyDown(Keys.X) && life.gameover == true)
+            {
+                RestartGame();
+            }
+            if (dogs.Count < 8)
             {
                 Random random = new Random();
                 int x = random.Next((0 + dudeImage.Width), (screenWidth - dogImage.Width));
-                int y = random.Next(-999, -100);
+                int y = random.Next(-555, -55);
                 dogs.Add(new dog(dogImage, screenBounds, new Vector2(x , y)));
             }
-
+            scoreBoard.Update(score);
+            life.Update();
             base.Update(gameTime);
         }
 
@@ -203,9 +220,19 @@ namespace What_do_you_mean_brought_it_bowling
                 dog.Draw(spriteBatch);
             }
 
+            //Draw the Score
+            scoreBoard.Draw(spriteBatch);
+
+            //Draw the life icons.
+            life.Draw(spriteBatch);
+            if (life.gameover == true)
+            {
+                spriteBatch.Draw(gameOverImage, new Vector2((screenWidth / 2) -(gameOverImage.Width / 2), (screenHeight /2) - (gameOverImage.Height /2)), Color.White);
+            }
             spriteBatch.End();
 
             // TODO: Add your drawing code here
+
 
             base.Draw(gameTime);
         }
@@ -222,10 +249,27 @@ namespace What_do_you_mean_brought_it_bowling
             score += 1;
         }
 
-        //public void drawText()
-        //{
-        //    spriteBatch.DrawString(font, "Balls: " + balls.Count.ToString(), new Vector2(10, 10), Color.White);
-        //}
+        public void StartGame()
+        {
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -160)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -250)));
+        }
+
+        public void RestartGame()
+        {
+            life.setNumberLives();
+            life.setGameOverFalse();
+            dogs.Clear();
+            balls.Clear();
+            score = 0;
+            StartGame();
+
+        }
+
+ 
 
     }
 }

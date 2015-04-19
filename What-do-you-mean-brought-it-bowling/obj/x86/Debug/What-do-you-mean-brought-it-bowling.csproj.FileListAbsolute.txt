@@ -37,3 +37,5 @@ C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-i
 C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-it-bowling\bin\Windows\Debug\Content\7.png
 C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-it-bowling\bin\Windows\Debug\Content\8.png
 C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-it-bowling\bin\Windows\Debug\Content\9.png
+C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-it-bowling\bin\Windows\Debug\Content\life.png
+C:\Users\Jack\xna\What-do-you-mean-brought-it-bowling\What-do-you-mean-brought-it-bowling\bin\Windows\Debug\Content\gameover.png
