@@ -163,14 +163,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="What-do-you-mean-brought-it-bowling.exe" size="163720">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="What-do-you-mean-brought-it-bowling.exe" size="164232">
       <assemblyIdentity name="What-do-you-mean-brought-it-bowling" version="3.3.0.2238" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>GZ6ODC6UCNHOTpRQaJtQXYWAKD4=</dsig:DigestValue>
+        <dsig:DigestValue>F0afGP0o7Vh3l6SJisZf8/kSnSM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -325,6 +325,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>yEW5U2kfbN3gySOrHmtTR6FmqZM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\walter.png" size="1201">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>WKn6fcOneOZY2/6OCmUbgARzDJQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\welcome.png" size="18574">

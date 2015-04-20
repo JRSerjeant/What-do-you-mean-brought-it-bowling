@@ -26,18 +26,19 @@ namespace What_do_you_mean_brought_it_bowling
             }
         }
 
-        float dogSpeed = 1f;
+        float dogSpeed;
 
         Texture2D texture;
         Rectangle screenBounds;
 
-        public dog(Texture2D texture, Rectangle screenBounds, Vector2 position)
+        public dog(Texture2D texture, Rectangle screenBounds, Vector2 position, float dogSpeed)
         {
             bounds = new Rectangle(0, 0, texture.Width, texture.Height);
             this.texture = texture;
             this.screenBounds = screenBounds;
             this.position = position;
             this.isAlive = true;
+            this.dogSpeed = dogSpeed;
         }
 
         public void Update()
@@ -63,7 +64,6 @@ namespace What_do_you_mean_brought_it_bowling
                 isDogOffScreen = false;
                 return false;
             }
-
         }
     }
 }

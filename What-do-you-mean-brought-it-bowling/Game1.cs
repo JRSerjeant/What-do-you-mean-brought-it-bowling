@@ -25,6 +25,7 @@ namespace What_do_you_mean_brought_it_bowling
         //Set up dude variables
         dude thedude;
         Texture2D dudeImage;
+        float dogSpeed = 1.0f;
 
         //Set up ball variables
         public List<ball> balls = new List<ball>();
@@ -54,6 +55,9 @@ namespace What_do_you_mean_brought_it_bowling
         Texture2D gameOverImage;
         Texture2D welcomeImage;
         Texture2D spake1Image;
+
+        //walter
+        Texture2D walterImage;
 
         bool newgame = true;
 
@@ -118,6 +122,7 @@ namespace What_do_you_mean_brought_it_bowling
             lifeImage = Content.Load<Texture2D>("life.png");
             welcomeImage = Content.Load <Texture2D>("welcome.png");
             spake1Image = Content.Load<Texture2D>("speak1.png");
+            walterImage = Content.Load<Texture2D>("walter.png");
             //Load first set of dogs. 
             StartGame();
             //create class instances
@@ -186,7 +191,7 @@ namespace What_do_you_mean_brought_it_bowling
             {
                 if (!oldState.IsKeyDown(Keys.Space))
                 {
-                    if (balls.Count <= 10)
+                    if (balls.Count <= 10 && life.gameover == false)
                     {
                         holdingBalls.reduceBallsToDraw();
                         addBall(thedude.position);
@@ -205,7 +210,12 @@ namespace What_do_you_mean_brought_it_bowling
                 Random random = new Random();
                 int x = random.Next((0 + dudeImage.Width), (screenWidth - dogImage.Width));
                 int y = random.Next(-555, -55);
-                dogs.Add(new dog(dogImage, screenBounds, new Vector2(x , y)));
+                dogSpeed += 0.04f;
+                if (dogSpeed > 3.1f)
+                {
+                    dogSpeed = 3.0f;
+                }
+                dogs.Add(new dog(dogImage, screenBounds, new Vector2(x , y),dogSpeed));
             }
             scoreBoard.Update(score);
             life.Update();
@@ -225,7 +235,7 @@ namespace What_do_you_mean_brought_it_bowling
            
             //draw the dude.
             thedude.Draw(spriteBatch);
-
+            spriteBatch.Draw(walterImage, new Vector2(10, screenHeight - walterImage.Height - 150));
             //Draw the balls
             foreach (ball ball in balls)
             {
@@ -277,11 +287,11 @@ namespace What_do_you_mean_brought_it_bowling
 
         public void StartGame()
         {
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -160)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80)));
-            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -250)));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 1.5f, 0),dogSpeed));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2.5f, 0),dogSpeed));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 2, -160),dogSpeed));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 3.6f, -80),dogSpeed));
+            dogs.Add(new dog(dogImage, screenBounds, new Vector2(screenWidth / 0.5f, -250),dogSpeed));
         }
 
         public void RestartGame()
@@ -291,6 +301,7 @@ namespace What_do_you_mean_brought_it_bowling
             dogs.Clear();
             balls.Clear();
             score = 0;
+            dogSpeed = 1.0f;
             StartGame();
         }
     }
